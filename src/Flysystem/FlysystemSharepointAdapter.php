@@ -134,7 +134,7 @@ class FlysystemSharepointAdapter implements FilesystemAdapter
         $files = $this->connector->getDirectory()->requestDirectoryItems($path);
         $storages = [];
         foreach ($files as $key => $file) {
-            if (isset($file['file']) && isset($file['folder'])) {
+            if (isset($file['file']) || isset($file['folder'])) {
                 $storages[] =  $this->getFileAttributes($path);
             }
             //$storages[] = new FlysystemStorageAttributesAdapter($file, $path);
@@ -173,8 +173,8 @@ class FlysystemSharepointAdapter implements FilesystemAdapter
             $this->connector->getFile()->checkFileSize($path),
             null,
             $this->connector->getFile()->checkFileLastModified($path),
-            $this->connector->getFile()->checkFileMimeType($path),
-            $this->connector->getFile()->requestFileMetadata($path) ?? []
+            (isset($file['file']) ? $this->connector->getFile()->checkFileMimeType($path): null),
+        $this->connector->getFile()->requestFileMetadata($path) ?? []
         );
     }
 }
