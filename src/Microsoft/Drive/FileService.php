@@ -55,8 +55,18 @@ class FileService
     public function readFile(?string $path = null, ?string $itemId = null): string
     {
         $url = $this->getFileBaseUrl($path, $itemId, '/content');
-
         return $this->apiConnector->request('GET', $url);
+    }
+
+    /**
+     * Read or Download the content of a file by ItemId
+     *
+     * @throws Exception
+     */
+    public function getUrl(?string $path = null, ?string $itemId = null): string
+    {
+        $url = $this->getFileBaseUrl($path, $itemId, '/content');
+        return $this->apiConnector->getBaseUrl() . $url;
     }
 
     /**

@@ -53,7 +53,7 @@ class DirectoryService
      */
     public function requestDirectoryItems(?string $directory = '/', ?string $itemId = null): array
     {
-        $url = $this->getDirectoryBaseUrl($directory, $itemId, 'children');
+        $url = $this->getDirectoryBaseUrl($directory, $itemId, 'children?$top=50000');
         // /sites/{siteId}/drive
         $response = $this->apiConnector->request('GET', $url);
 
@@ -130,7 +130,7 @@ class DirectoryService
             $parentDirectoryId = $parentDirectoryMeta['id'];
         }
 
-        $url = $this->getDirectoryBaseUrl(null, $parentDirectoryId, '/children');
+        $url = $this->getDirectoryBaseUrl(null, $parentDirectoryId, 'children?$top=50000');
 
         // Build request
         $body = [

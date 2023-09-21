@@ -31,7 +31,12 @@ class FlysystemSharepointAdapter implements FilesystemAdapter
 
     public function fileExists(string $path): bool
     {
+
         return $this->connector->getFile()->checkFileExists($path);
+    }
+
+    public function getUrl($path){
+        return $this->connector->getFile()->getUrl($path);
     }
 
     public function directoryExists(string $path): bool
@@ -134,10 +139,13 @@ class FlysystemSharepointAdapter implements FilesystemAdapter
         $files = $this->connector->getDirectory()->requestDirectoryItems($path);
         $storages = [];
         foreach ($files as $key => $file) {
-            if (isset($file['file']) || isset($file['folder'])) {
-                $storages[] =  $this->getFileAttributes($path);
+            if (isset($file['folder'])){
+                $storages[] = new FlysystemStorageAttributesAdapter($file, $path);
             }
-            //$storages[] = new FlysystemStorageAttributesAdapter($file, $path);
+            if (isset($file['file']) && !isset($file['folder'])) {
+                //$storages[] = $this->getFileAttributes($path);
+                $storages[] = new FlysystemStorageAttributesAdapter($file, $path);
+            }
         }
         return $storages;
     }
@@ -168,13 +176,11 @@ class FlysystemSharepointAdapter implements FilesystemAdapter
     {
         return new FileAttributes(
             $path,
-            isset($file['folder']),
-            isset($file['file']), 
             $this->connector->getFile()->checkFileSize($path),
             null,
             $this->connector->getFile()->checkFileLastModified($path),
-            (isset($file['file']) ? $this->connector->getFile()->checkFileMimeType($path): null),
-        $this->connector->getFile()->requestFileMetadata($path) ?? []
+            $this->connector->getFile()->checkFileMimeType($path),
+            $this->connector->getFile()->requestFileMetadata($path) ?? []
         );
     }
 }

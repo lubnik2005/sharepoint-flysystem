@@ -35,8 +35,16 @@ class FlysystemStorageAttributesAdapter implements StorageAttributes
         return 0;
     }
 
-    public static function fromArray(array $attributes): StorageAttributes{
-        return new FlysystemStorageAttributesAdapter('temp', 'temp');
+    public static function fromArray(array $attributes): self
+    {
+        return new FlysystemStorageAttributesAdapter(
+            $attributes[StorageAttributes::ATTRIBUTE_PATH],
+            $attributes[StorageAttributes::ATTRIBUTE_FILE_SIZE] ?? null,
+            $attributes[StorageAttributes::ATTRIBUTE_VISIBILITY] ?? null,
+            $attributes[StorageAttributes::ATTRIBUTE_LAST_MODIFIED] ?? null,
+            $attributes[StorageAttributes::ATTRIBUTE_MIME_TYPE] ?? null,
+            $attributes[StorageAttributes::ATTRIBUTE_EXTRA_METADATA] ?? []
+        );
     }
 
     public function isFile(): bool{
