@@ -6,7 +6,7 @@ The only sharepoint flysystem that seems to work
 
 In `composer.json` add
 
-```json
+```js
 
 // ...
 "repositories": {
