@@ -226,7 +226,7 @@ class DirectoryService
         }
 
         if ($path === '/' || $path === '') {
-            return sprintf('/v1.0/drives/%s/items/root%s', $this->getDriveId(), ($suffix ?? ''));
+            return sprintf('/v1.0/drives/%s/items/root:%s', $this->getDriveId(), ($suffix ?? ''));
         }
 
         $path = ltrim($path, '/');
