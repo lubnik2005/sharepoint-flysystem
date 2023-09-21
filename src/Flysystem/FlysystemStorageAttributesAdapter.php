@@ -15,11 +15,11 @@ class FlysystemStorageAttributesAdapter implements StorageAttributes
 
     public function __construct($file, $path){
         $this->file = $file;
-        $this->path= $path;
+        $this->path = $path;
     }
 
     public function path(): string {
-        return $this->path . '/' . $this->file->name;
+        return $this->path . '/' . $this->file['name'];
     }
 
     public function type(): string{
@@ -40,7 +40,7 @@ class FlysystemStorageAttributesAdapter implements StorageAttributes
     }
 
     public function isFile(): bool{
-        return true;
+        return false;
     }
 
     public function isDir(): bool{
