@@ -140,7 +140,7 @@ class FlySystemSharepointProvider extends ServiceProvider
              */
             public function show($id)
             {
-                $stream = Storage::disk('sharepoint')->readStream($id);
+                $stream = Storage::disk($this->disk)->readStream($id);
 
                 // Create a temporary file
                 $tmpFilePath = sys_get_temp_dir() . '/' . Str::random(16);
@@ -171,10 +171,9 @@ class FlySystemSharepointProvider extends ServiceProvider
         }
    ```
 
-## Go into more detail in future
-
 ## Upcoming
 
 Add a `php artisan publish` command that will auto-install everything for laravel applications, including the adapter and the routes.
 
-Make `sharepoint` name more dynamic and based on the config file (maybe).
+Make `sharepoint` name more dynamic and based on the config file (mayb
+e).
