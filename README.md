@@ -8,14 +8,14 @@ In `composer.json` add
 
 ```json
 
-...
+// ...
 "repositories": {
   "lubnik2005/sharepoint-flysystem": {
     "type": "vcs",
     "url": "https://github.com/lubnik2005/sharepoint-flysystem.git"
   }
 }
-...
+// ...
 ```
 
 Now run ` composer require lubnik2005/sharepoint-flysystem`.
