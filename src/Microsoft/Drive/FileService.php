@@ -65,8 +65,7 @@ class FileService
      */
     public function getUrl(?string $path = null, ?string $itemId = null): string
     {
-        $url = $this->getFileBaseUrl($path, $itemId, '/content');
-        return $this->apiConnector->getBaseUrl() . $url;
+        return "/api/sharepoint$path";
     }
 
     /**
