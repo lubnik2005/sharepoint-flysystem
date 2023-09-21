@@ -130,7 +130,13 @@ class FlysystemSharepointAdapter implements FilesystemAdapter
      */
     public function listContents(string $path, bool $deep): iterable
     {
-        return $this->connector->getDirectory()->requestDirectoryItems($path);
+        //return $this->connector->getDirectory()->requestDirectoryItems($path);
+        $files = $this->connector->getDirectory()->requestDirectoryItems($path);
+        $storages = [];
+        foreach ($files as $key => $file) {
+            $storages[] = new FlysystemStorageAttributesAdapter($file, $path);
+        }
+        return $storages;
     }
 
     public function move(string $source, string $destination, Config $config): void
