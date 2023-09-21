@@ -54,8 +54,6 @@ class DirectoryService
     public function requestDirectoryItems(?string $directory = '/', ?string $itemId = null): array
     {
         $url = $this->getDirectoryBaseUrl($directory, $itemId, 'children');
-        echo($url);
-
         // /sites/{siteId}/drive
         $response = $this->apiConnector->request('GET', $url);
 

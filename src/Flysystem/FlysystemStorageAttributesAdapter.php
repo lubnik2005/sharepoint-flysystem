@@ -11,19 +11,19 @@ class FlysystemStorageAttributesAdapter implements StorageAttributes
 {
 
     public $path = '';
-    public $file = '';
+    public $object = [];
 
-    public function __construct($file, $path){
-        $this->file = $file;
+    public function __construct($object, $path){
+        $this->object = $object;
         $this->path = $path;
     }
 
     public function path(): string {
-        return $this->path . '/' . $this->file['name'];
+        return $this->path . '/' . $this->object['name'];
     }
 
     public function type(): string{
-        return $this->file->file->type;
+        return $this->object->file->type;
     }
 
     public function visibility(): ?string{
@@ -40,11 +40,11 @@ class FlysystemStorageAttributesAdapter implements StorageAttributes
     }
 
     public function isFile(): bool{
-        return false;
+        return isset($this->object['file']);
     }
 
     public function isDir(): bool{
-        return true;
+        return isset($this->object['folder']);
     }
 
     public function withPath(string $path): StorageAttributes{
