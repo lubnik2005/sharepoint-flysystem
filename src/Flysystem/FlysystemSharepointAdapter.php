@@ -174,6 +174,19 @@ class FlysystemSharepointAdapter implements FilesystemAdapter
 
     private function getFileAttributes(string $path): FileAttributes
     {
+        $fileMetaData = $this->connector->getFile()->requestFileMetadata($path);
+        return new FileAttributes(
+            $path,
+            $fileMetaData['size'],
+            null,
+            (new \DateTime($fileMetaData['lastModifiedDateTime']))->getTimestamp(),
+            $fileMetaData['file']['mimeType'],
+            $fileMetaData
+        );
+    }
+
+    private function getFileAttributesSlow(string $path): FileAttributes
+    {
         return new FileAttributes(
             $path,
             $this->connector->getFile()->checkFileSize($path),
