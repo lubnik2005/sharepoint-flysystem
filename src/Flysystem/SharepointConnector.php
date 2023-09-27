@@ -23,7 +23,8 @@ class SharepointConnector
         string $clientId,
         string $clientSecret,
         string $sharepointSite,
-        ?string $sharepointDrive = null
+        ?string $sharepointDrive = null,
+        ?string $prefix = null
     ) {
         $authService = new AuthenticationService();
         $accessToken = $authService->getAccessToken($tenantId, $clientId, $clientSecret);
@@ -42,8 +43,8 @@ class SharepointConnector
         }
         $this->drive->setDriveId($driveId);
 
-        $this->directory = new DirectoryService($accessToken, $driveId);
-        $this->file = new FileService($accessToken, $driveId);
+        $this->directory = new DirectoryService($accessToken, $driveId, $prefix);
+        $this->file = new FileService($accessToken, $driveId, $prefix);
     }
 
     public function getAccessToken(): string

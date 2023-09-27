@@ -12,17 +12,20 @@ class FileService
 {
     private ApiConnector $apiConnector;
     private string $driveId;
+    private string $prefix;
     private DirectoryService $directoryService;
 
     public function __construct(
         string $accessToken,
         string $driveId,
+        string $prefix,
         int $requestTimeout = 60,
         bool $verify = true
     ) {
         $this->setApiConnector(new ApiConnector($accessToken, $requestTimeout, $verify));
         $this->setDriveId($driveId);
-        $this->directoryService = new DirectoryService($accessToken, $driveId, $requestTimeout, $verify);
+        $this->setPrefix($prefix);
+        $this->directoryService = new DirectoryService($accessToken, $driveId,$prefix, $requestTimeout, $verify);
     }
 
     public function getApiConnector(): ApiConnector
@@ -44,6 +47,17 @@ class FileService
     public function setDriveId(string $driveId): FileService
     {
         $this->driveId = $driveId;
+        return $this;
+    }
+
+    public function getPrefix(): string
+    {
+        return $this->prefix . '/';
+    }
+
+    public function setPrefix(string $prefix): FileService
+    {
+        $this->prefix = $prefix;
         return $this;
     }
 
@@ -343,7 +357,8 @@ class FileService
         }
         $path = ltrim($path, '/');
         return sprintf(
-            '/v1.0/drives/%s/items/root:/%s%s',
+            '/v1.0/drives/%s/items/root:/$s%s%s',
+            $this->getPrefix(),
             $this->getDriveId(),
             $path,
             ($suffix !== null ? ':' . $suffix : '')

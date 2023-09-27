@@ -12,15 +12,18 @@ class DirectoryService
 {
     private ApiConnector $apiConnector;
     private string $driveId;
+    private string $prefix;
 
     public function __construct(
         string $accessToken,
         string $driveId,
+        string $prefix,
         int $requestTimeout = 60,
         bool $verify = true
     ) {
         $this->setApiConnector(new ApiConnector($accessToken, $requestTimeout, $verify));
         $this->setDriveId($driveId);
+        $this->setPrefix($prefix);
     }
 
     public function getApiConnector(): ApiConnector
@@ -37,6 +40,17 @@ class DirectoryService
     public function getDriveId(): string
     {
         return $this->driveId;
+    }
+
+    public function getPrefix(): string
+    {
+        return $this->prefix;
+    }
+
+    public function setPrefix(string $prefix): DirectoryService
+    {
+        $this->prefix = $prefix;
+        return $this;
     }
 
     public function setDriveId(string $driveId): DirectoryService
@@ -224,12 +238,13 @@ class DirectoryService
         }
 
         if ($path === '/' || $path === '') {
-            return sprintf('/v1.0/drives/%s/items/root:%s', $this->getDriveId(), ($suffix ?? ''));
+            return sprintf('/v1.0/drives/%s/items/root:%s%s', $this->getPrefix() ? '/' . $this->getPrefix() . ':' : '',$this->getDriveId(), ($suffix ?? ''));
         }
 
         $path = ltrim($path, '/');
         return sprintf(
-            '/v1.0/drives/%s/items/root:/%s%s',
+            '/v1.0/drives/%s/items/root:/$s/%s%s',
+            $this->getPrefix() ? $this->getPrefix() . '/' : '',
             $this->getDriveId(),
             $path,
             ($suffix !== null ? ':' . $suffix : '')
