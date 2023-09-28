@@ -357,11 +357,11 @@ class FileService
         }
         $path = ltrim($path, '/');
         return sprintf(
-            '/v1.0/drives/%s/items/root:/$s%s%s',
-            $this->getPrefix(),
+            '/v1.0/drives/%s/items/root:/%s%s%s',
             $this->getDriveId(),
+            $this->getPrefix(),
             $path,
-            ($suffix !== null ? ':' . $suffix : '')
+            $suffix !== null ? ':' . $suffix : ''
         );
     }
 }

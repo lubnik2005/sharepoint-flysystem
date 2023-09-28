@@ -236,18 +236,21 @@ class DirectoryService
         if ($itemId !== null) {
             return sprintf('/v1.0/drives/%s/items/%s%s', $this->getDriveId(), $itemId, ($suffix ?? ''));
         }
-
         if ($path === '/' || $path === '') {
-            return sprintf('/v1.0/drives/%s/items/root:%s%s', $this->getPrefix() ? '/' . $this->getPrefix() . ':' : '',$this->getDriveId(), ($suffix ?? ''));
+            return sprintf(
+                '/v1.0/drives/%s/items/root:%s%s', 
+                $this->getDriveId(), 
+                $this->getPrefix() ? '/' . $this->getPrefix() . ':' : '',
+                $suffix ?? '');
         }
 
         $path = ltrim($path, '/');
         return sprintf(
-            '/v1.0/drives/%s/items/root:/$s%s%s',
-            $this->getPrefix() ? $this->getPrefix() . '/' : '',
+            '/v1.0/drives/%s/items/root:/%s%s%s',
             $this->getDriveId(),
+            $this->getPrefix() ? $this->getPrefix() . '/' : '',
             $path,
-            ($suffix !== null ? ':' . $suffix : '')
+            $suffix !== null ? ':' . $suffix : ''
         );
     }
 }
