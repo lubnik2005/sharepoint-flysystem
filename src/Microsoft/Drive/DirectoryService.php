@@ -243,7 +243,7 @@ class DirectoryService
 
         $path = ltrim($path, '/');
         return sprintf(
-            '/v1.0/drives/%s/items/root:/$s/%s%s',
+            '/v1.0/drives/%s/items/root:/$s%s%s',
             $this->getPrefix() ? $this->getPrefix() . '/' : '',
             $this->getDriveId(),
             $path,
